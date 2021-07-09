@@ -15,12 +15,12 @@ var logger, _ = zap.NewProduction()
 
 
 func main() {
-	mainRouter := mux.NewRouter()
+	router := mux.NewRouter()
 
-	booksRouter := routes.RegisterBookStoreRoutes()
+	booksRouter:= routes.RegisterBookStoreRoutes()
 
-	mainRouter.Handle("/books", booksRouter)
+	router.NewRoute().Handler(booksRouter)
 	
-	log.Fatal(http.ListenAndServe(":8080", mainRouter))
+	log.Fatal(http.ListenAndServe(":8080", router))
 	
 }

@@ -7,13 +7,14 @@ import (
 )
 
 func RegisterBookStoreRoutes() *mux.Router {
-	router := mux.NewRouter()
 
-	router.HandleFunc("/books", controllers.CreateBook).Methods("POST")
-	router.HandleFunc("/books", controllers.GetBook).Methods("GET")
-	router.HandleFunc("/books/{bookId}", controllers.GetBookById).Methods("GET")
-	router.HandleFunc("/books/{bookId}", controllers.UpdateBook).Methods("PUT")
-	router.HandleFunc("/books/{bookId}", controllers.DeleteBook).Methods("DELETE")
+	subRouter := mux.NewRouter().PathPrefix("/books").Subrouter()
 
-	return router;
+	subRouter.HandleFunc("", controllers.CreateBook).Methods("POST")
+	subRouter.HandleFunc("", controllers.GetBook).Methods("GET")
+	subRouter.HandleFunc("/{bookId}", controllers.GetBookById).Methods("GET")
+	subRouter.HandleFunc("/{bookId}", controllers.UpdateBook).Methods("PUT")
+	subRouter.HandleFunc("/{bookId}", controllers.DeleteBook).Methods("DELETE")
+
+	return subRouter
 }
