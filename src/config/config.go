@@ -1,6 +1,10 @@
 package config
 
 import (
+	"log"
+	"os"
+
+	"github.com/joho/godotenv"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -9,10 +13,20 @@ var (
 	db * gorm.DB
 )
 
-func Connect() *gorm.DB{
-	// Please define your user name and password for my sql.
+func init() {
 
-	dsn := "host=localhost user=postgres password=password dbname=postgres port=5432 sslmode=disable TimeZone=UTC"
+	err := godotenv.Load()
+	if err != nil {
+	  log.Fatal("Error loading .env file")
+	}
+}
+
+func Connect() *gorm.DB{	
+
+	dsn := "host=localhost user=" + os.Getenv("DB_USER") + 
+	" password=" + os.Getenv("DB_PASS") +  
+	" dbname=" + os.Getenv("DB_NAME") + 
+	" port=" + os.Getenv("DB_PORT") + " sslmode=disable TimeZone=UTC"
 	dbc, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil{
 		panic(err)
