@@ -1,23 +1,26 @@
 package config
 
 import (
-	"github.com/jinzhu/gorm"
-	_ "github.com/jinzhu/gorm/dialects/mysql"
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
 )
 
 var (
 	db * gorm.DB
 )
 
-func Connect() {
+func Connect() *gorm.DB{
 	// Please define your user name and password for my sql.
-	d, err := gorm.Open("mysql", "root:root@/simplerest?charset=utf8&parseTime=True&loc=Local")
+
+	dsn := "host=localhost user=postgres password=password dbname=postgres port=5432 sslmode=disable TimeZone=UTC"
+	dbc, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil{
 		panic(err)
 	}
-	db = d
 
-	d.DB().SetMaxIdleConns(0)
+	db = dbc
+
+	return db
 }
 
 func GetDB() *gorm.DB {

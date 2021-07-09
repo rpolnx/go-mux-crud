@@ -9,15 +9,18 @@ import (
 	"main/src/routes"
 
 	"github.com/gorilla/mux"
-	_ "github.com/jinzhu/gorm/dialects/mysql"
 )
 
 var logger, _ = zap.NewProduction()
 
 
 func main() {
-	r := mux.NewRouter()
-	routes.RegisterBookStoreRoutes(r)
-	http.Handle("/", r)
-	log.Fatal(http.ListenAndServe("localhost:8080", r))
+	mainRouter := mux.NewRouter()
+
+	booksRouter := routes.RegisterBookStoreRoutes()
+
+	mainRouter.Handle("/books", booksRouter)
+	
+	log.Fatal(http.ListenAndServe(":8080", mainRouter))
+	
 }
