@@ -23,7 +23,7 @@ func init() {
 
 func Connect() *gorm.DB{	
 
-	dsn := "host=localhost user=" + os.Getenv("DB_USER") + 
+	dsn := "host=" + os.Getenv("DB_HOST") +  " user=" + os.Getenv("DB_USER") + 
 	" password=" + os.Getenv("DB_PASS") +  
 	" dbname=" + os.Getenv("DB_NAME") + 
 	" port=" + os.Getenv("DB_PORT") + " sslmode=disable TimeZone=UTC"
